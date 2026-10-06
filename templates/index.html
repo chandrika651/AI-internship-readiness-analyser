@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Internship Readiness Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #d1d5db;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .question {
+            margin-bottom: 22px;
+        }
+
+        .question label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .question small {
+            display: block;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .range-value {
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            text-align: center;
+        }
+
+        .score {
+            font-size: 55px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 15px;
+        }
+
+        .level {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            color: #4b5563;
+            margin-bottom: 25px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .result-box {
+            padding: 20px;
+            border-radius: 10px;
+            background: #f9fafb;
+        }
+
+        .result-box h3 {
+            margin-bottom: 12px;
+        }
+
+        .result-box ul {
+            padding-left: 20px;
+        }
+
+        .result-box li {
+            margin-bottom: 8px;
+        }
+
+        .recommendations {
+            margin-top: 20px;
+            text-align: left;
+            background: #eff6ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .recommendations h3 {
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <div class="header">
+
+        <h1>AI Internship Readiness Analyzer</h1>
+
+        <p>
+            Analyze your skills and discover how ready you are
+            for software internships.
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Assess Your Skills</h2>
+
+            <form action="/analyze" method="POST">
+
+
+                <!-- Programming -->
+
+                <div class="question">
+
+                    <label>
+                        Programming Skills
+                    </label>
+
+                    <small>
+                        Rate your programming knowledge from 1 to 10.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="programming"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="programmingValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="programmingValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- DSA -->
+
+                <div class="question">
+
+                    <label>
+                        Data Structures & Algorithms
+                    </label>
+
+                    <small>
+                        How comfortable are you with DSA problems?
+                    </small>
+
+                    <input
+                        type="range"
+                        name="dsa"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="dsaValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="dsaValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- Core CS -->
+
+                <div class="question">
+
+                    <label>
+                        Core Computer Science
+                    </label>
+
+                    <small>
+                        DBMS, OS, Computer Networks, OOP, etc.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="core"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="coreValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="coreValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- Projects -->
+
+                <div class="question">
+
+                    <label>
+                        Projects
+                    </label>
+
+                    <small>
+                        Rate the strength of your project portfolio.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="projects"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="projectsValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="projectsValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- Aptitude -->
+
+                <div class="question">
+
+                    <label>
+                        Aptitude
+                    </label>
+
+                    <small>
+                        Quantitative aptitude, reasoning and verbal ability.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="aptitude"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="aptitudeValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="aptitudeValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- Communication -->
+
+                <div class="question">
+
+                    <label>
+                        Communication Skills
+                    </label>
+
+                    <small>
+                        Rate your confidence in technical communication.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="communication"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="communicationValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="communicationValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <!-- Resume -->
+
+                <div class="question">
+
+                    <label>
+                        Resume Quality
+                    </label>
+
+                    <small>
+                        Rate your current resume.
+                    </small>
+
+                    <input
+                        type="range"
+                        name="resume"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="resumeValue.innerText = this.value">
+
+                    <span
+                        class="range-value"
+                        id="resumeValue">
+                        5
+                    </span>
+
+                </div>
+
+
+                <button type="submit">
+                    Analyze My Internship Readiness
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {% if submitted %}
+
+        <div class="card result">
+
+            <h2>Your Internship Readiness Result</h2>
+
+            <div class="score">
+                {{ result.score }}/100
+            </div>
+
+            <div class="level">
+                {{ result.level }}
+            </div>
+
+            <p class="message">
+                {{ result.message }}
+            </p>
+
+
+            <div class="result-grid">
+
+                <div class="result-box">
+
+                    <h3>Strengths</h3>
+
+                    <ul>
+
+                        {% for strength in result.strengths %}
+
+                        <li>
+                            {{ strength }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <h3>Areas to Improve</h3>
+
+                    <ul>
+
+                        {% for weakness in result.weaknesses %}
+
+                        <li>
+                            {{ weakness }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="recommendations">
+
+                <h3>Personalized Recommendations</h3>
+
+                <ul>
+
+                    {% for recommendation in result.recommendations %}
+
+                    <li>
+                        {{ recommendation }}
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
